@@ -1,0 +1,27 @@
+/* [project]/app/zonapro_db8c7176.module.css [app-client] (css) */
+@font-face {
+  font-family: zonaPro;
+  src: url("../media/ZonaPro_Bold-s.p.8e90804c.otf") format("opentype");
+  font-display: swap;
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: zonaPro Fallback;
+  src: local(Arial);
+  ascent-override: 79.1%;
+  descent-override: 15.3%;
+  line-gap-override: 0.0%;
+  size-adjust: 114.41%;
+}
+
+.zonapro_db8c7176-module__ez9T-q__className {
+  font-family: zonaPro, zonaPro Fallback;
+}
+
+.zonapro_db8c7176-module__ez9T-q__variable {
+  --font-zona: "zonaPro", "zonaPro Fallback";
+}
+
+/*# sourceMappingURL=app_zonapro_db8c7176_module_css_bad6b30c._.single.css.map*/

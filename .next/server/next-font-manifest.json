@@ -1,0 +1,25 @@
+{
+  "app": {
+    "[project]/app/domains/[domains]/contact/page": [
+      "static/media/ZonaPro_Bold-s.p.8e90804c.otf"
+    ],
+    "[project]/app/domains/[domains]/games/page": [
+      "static/media/ZonaPro_Bold-s.p.8e90804c.otf"
+    ],
+    "[project]/app/domains/[domains]/page": [
+      "static/media/ZonaPro_Bold-s.p.8e90804c.otf"
+    ],
+    "[project]/app/domains/[domains]/teams/[teamId]/page": [
+      "static/media/ZonaPro_Bold-s.p.8e90804c.otf"
+    ],
+    "[project]/app/domains/[domains]/teams/page": [
+      "static/media/ZonaPro_Bold-s.p.8e90804c.otf"
+    ],
+    "[project]/app/page": [
+      "static/media/ZonaPro_Bold-s.p.8e90804c.otf"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

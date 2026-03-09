@@ -1,0 +1,9 @@
+{
+  "/domains/[domains]/contact/page": "app/domains/[domains]/contact/page.js",
+  "/domains/[domains]/games/page": "app/domains/[domains]/games/page.js",
+  "/domains/[domains]/page": "app/domains/[domains]/page.js",
+  "/domains/[domains]/teams/[teamId]/page": "app/domains/[domains]/teams/[teamId]/page.js",
+  "/domains/[domains]/teams/page": "app/domains/[domains]/teams/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js"
+}

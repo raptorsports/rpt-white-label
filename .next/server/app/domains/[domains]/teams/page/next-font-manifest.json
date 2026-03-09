@@ -1,0 +1,10 @@
+{
+  "pages": {},
+  "app": {
+    "[project]/app/domains/[domains]/teams/page": [
+      "static/media/ZonaPro_Bold-s.p.8e90804c.otf"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pagesUsingSizeAdjust": false
+}
