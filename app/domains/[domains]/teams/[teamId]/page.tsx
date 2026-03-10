@@ -1,31 +1,54 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getLeagueByDomain, getTeam } from "@/lib/league-data";
-import { Separator } from "@/components/ui/separator";
+import Image from "next/image"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+import {
+  getLeagueByDomain,
+  getTeam,
+  getPlayersByIDs,
+  getPlayerStatsByIDs
+} from "@/lib/league-data"
+import { Separator } from "@/components/ui/separator"
+import { TeamTabs } from "@/components/team/team-tabs"
 
 export default async function TeamDetailPage({
   params,
 }: {
-  params: Promise<{ domain: string; teamId: string }>;
+  params: { domain: string; teamId: string }
 }) {
-  const { domain, teamId } = await params;
 
-  const league = await getLeagueByDomain(domain);
-  if (!league) return <div>League not found.</div>;
+  const { domain, teamId } = params
 
-  const team = await getTeam(league.id, teamId);
-  if (!team) return <div>Team not found.</div>;
+  const league = await getLeagueByDomain(domain)
+  if (!league) return <div>League not found.</div>
 
-  const gp = team.record.w + team.record.l + (team.record.ot ?? 0);
+  const team = await getTeam(league.id, teamId)
+  if (!team) return <div>Team not found.</div>
 
-  const base = `/domains/${encodeURIComponent(domain)}/teams`;
+  const base = `/domains/${encodeURIComponent(domain)}/teams`
+
+  const players =
+    team.players?.length
+      ? await getPlayersByIDs(team.players)
+      : []
+
+  const stats =
+    players.length
+      ? await getPlayerStatsByIDs(
+        players
+          .map(p => p.statsID)
+          .filter(Boolean) as string[]
+      )
+      : []
+
+  const sortedPlayers = [...players].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  )
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
 
-      {/* Back Button */}
+      {/* BACK BUTTON */}
       <Link
         href={base}
         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-black transition"
@@ -34,75 +57,69 @@ export default async function TeamDetailPage({
         Back to Teams
       </Link>
 
-      {/* Team Header */}
-      <div className="flex items-center gap-4">
+      {/* TEAM HEADER */}
+      <div className="relative overflow-hidden rounded-xl border bg-gray-200 text-foreground p-6">
 
-        <Image
-          src={team.logo}
-          alt={team.name}
-          width={70}
-          height={70}
-          className="object-contain"
-        />
+        <div className="flex items-center gap-6">
 
-        <div>
-          <h1 className="text-2xl font-semibold">{team.name}</h1>
+          <div className="rounded-xl bg-white p-3 shadow-lg">
+            <Image
+              src={team.logo ?? ""}
+              alt={team.name ?? ""}
+              width={70}
+              height={70}
+              className="object-contain"
+            />
+          </div>
 
-          <p className="text-sm text-muted-foreground">
-            GP {gp} • {team.record.w}-{team.record.l}-{team.record.ot ?? 0} • {team.points} pts
-          </p>
+          <div className="space-y-1">
+
+            <h1 className="text-3xl font-bold tracking-tight">
+              {team.name}
+            </h1>
+
+            <p className="text-md font-semibold text-gray-500 uppercase">
+              {team.division ?? "—"}
+            </p>
+
+            <p className="text-sm font-semibold text-gray-500">
+              Team Manager: Victor Monteiro
+            </p>
+
+          </div>
+
         </div>
 
       </div>
 
-      {/* Team Summary */}
+      {/* ROSTER */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Team Summary</CardTitle>
-        </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
-          Goals For / Against: {team.gf} / {team.ga}
-        </CardContent>
-      </Card>
+        <CardContent className="p-6 space-y-4">
 
-      {/* Roster */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Roster</CardTitle>
-        </CardHeader>
-
-        <CardContent>
-          {!team.roster?.length ? (
-            <div className="text-sm text-muted-foreground">
-              Roster not available.
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold uppercase">Roster</h1>
+              <p className="text-sm text-gray-400">
+                Click on a player to see stats
+              </p>
             </div>
-          ) : (
-            <div className="space-y-2">
 
-              {team.roster.map((p) => (
-                <div key={p.id} className="rounded-md border bg-white p-3">
-                  <div className="text-sm font-medium">
-                    {p.number ? `#${p.number} ` : ""}
-                    {p.name}
-                  </div>
+            <span className="text-xs text-muted-foreground">
+              {sortedPlayers.length} players
+            </span>
+          </div>
 
-                  <div className="text-xs text-muted-foreground">
-                    {p.position ?? "—"}
-                  </div>
-                </div>
-              ))}
+          <Separator />
 
-              <Separator />
+          <TeamTabs
+            players={sortedPlayers}
+            stats={stats}
+            games={team.games ?? []}
+          />
 
-              <div className="text-xs text-muted-foreground">
-                (MVP) Later: player stats, game logs, and advanced metrics.
-              </div>
-
-            </div>
-          )}
         </CardContent>
       </Card>
 
     </div>
-  );
+  )
 }

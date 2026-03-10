@@ -91,12 +91,103 @@ export type Sponsor = {
   url?: string;
 };
 
+export type PlayerStats = {
+  id: string
+  teamID?: string
+  leagueID?: string
+  division?: string
+  seasonID?: string
+  name: string
+  playerNumber?: string
+  playerID?: string
+
+  hockey?: Hockey
+  football?: Football
+  basketBall?: Basketball
+  soccer?: Soccer
+  volleyBall?: Volleyball
+  baseball?: Baseball
+  lacrosse?: Lacrosse
+}
+
+export type Hockey = {
+  pos?: string
+  gp?: string
+  g?: string
+  a?: string
+  pts?: string
+  ppga?: string
+  pim?: string
+}
+
+export type Football = {
+  pos?: string
+  gp?: string
+  pts?: string
+  ptsAvg?: string
+  yds?: string
+  ydsAvg?: string
+  td?: string
+  tdAvg?: string
+}
+
+export type Basketball = {
+  pos?: string
+  gp?: string
+  min?: string
+  pts?: string
+  fg?: string
+  pf?: string
+}
+
+export type Soccer = {
+  pos?: string
+  gp?: string
+  g?: string
+  a?: string
+  pts?: string
+  ppga?: string
+}
+
+export type Volleyball = {
+  pos?: string
+  gp?: string
+  pts?: string
+  ppga?: string
+  serves?: string
+  blocks?: string
+}
+
+export type Baseball = {
+  pos?: string
+  gp?: string
+  h?: string
+  hr?: string
+  ab?: string
+  so?: string
+  batgAvg?: string
+  single?: string
+  double?: string
+  triple?: string
+}
+
+export type Lacrosse = {
+  pos?: string
+  gp?: string
+  g?: string
+  a?: string
+  pts?: string
+  ppga?: string
+}
+
 // =======================================
 // MOCK DATABASE
 // =======================================
 
 const teamLogo =
   "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870";
+
+const teamPlayerImage = "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/profileImage%2F40DV5j6OI8gfE0hXzzF2xpE6Ksi2_RgueD_profileImage.png?alt=media&token=7aef98e0-bae9-432c-9173-056da1ee81e6";
 
 const mockDB = {
   leagues: [
@@ -156,7 +247,7 @@ const mockDB = {
       userID: "u1",
       name: "John Carter",
       email: "john@example.com",
-      imageURL: "/players/player1.jpg",
+      imageURL: teamPlayerImage,
       playerNumber: "9",
       position: "C",
       statsID: "stats1",
@@ -172,7 +263,7 @@ const mockDB = {
       userID: "u2",
       name: "Mike Adams",
       email: "mike@example.com",
-      imageURL: "/players/player2.jpg",
+      imageURL: teamPlayerImage,
       playerNumber: "21",
       position: "LW",
       statsID: "stats2",
@@ -188,7 +279,7 @@ const mockDB = {
       userID: "u3",
       name: "Chris Walker",
       email: "chris@example.com",
-      imageURL: "/players/player3.jpg",
+      imageURL: teamPlayerImage,
       playerNumber: "31",
       position: "G",
       statsID: "stats3",
@@ -204,7 +295,7 @@ const mockDB = {
       userID: "u4",
       name: "Ryan Brooks",
       email: "ryan@example.com",
-      imageURL: "/players/player4.jpg",
+      imageURL: teamPlayerImage,
       playerNumber: "14",
       position: "RW",
       statsID: "stats4",
@@ -216,6 +307,92 @@ const mockDB = {
       teamID: "gladiators",
     },
   ] as Profile[],
+
+  playerStats: [
+  {
+    id: "stats1",
+    playerID: "p1",
+    teamID: "ducks",
+    leagueID: "league-dev",
+    division: "rookie",
+    seasonID: "season-2026",
+    name: "John Carter",
+    playerNumber: "9",
+
+    hockey: {
+      pos: "C",
+      gp: "12",
+      g: "7",
+      a: "10",
+      pts: "17",
+      ppga: "1.41",
+      pim: "4",
+    },
+  },
+
+  {
+    id: "stats2",
+    playerID: "p2",
+    teamID: "ducks",
+    leagueID: "league-dev",
+    division: "rookie",
+    seasonID: "season-2026",
+    name: "Mike Adams",
+    playerNumber: "21",
+
+    hockey: {
+      pos: "LW",
+      gp: "12",
+      g: "5",
+      a: "8",
+      pts: "13",
+      ppga: "1.08",
+      pim: "6",
+    },
+  },
+
+  {
+    id: "stats3",
+    playerID: "p3",
+    teamID: "ducks",
+    leagueID: "league-dev",
+    division: "rookie",
+    seasonID: "season-2026",
+    name: "Chris Walker",
+    playerNumber: "31",
+
+    hockey: {
+      pos: "G",
+      gp: "10",
+      g: "0",
+      a: "1",
+      pts: "1",
+      ppga: "0.10",
+      pim: "0",
+    },
+  },
+
+  {
+    id: "stats4",
+    playerID: "p4",
+    teamID: "gladiators",
+    leagueID: "league-dev",
+    division: "elite",
+    seasonID: "season-2026",
+    name: "Ryan Brooks",
+    playerNumber: "14",
+
+    hockey: {
+      pos: "RW",
+      gp: "11",
+      g: "9",
+      a: "6",
+      pts: "15",
+      ppga: "1.36",
+      pim: "2",
+    },
+  },
+] as PlayerStats[],
 
   games: [
     {
@@ -394,9 +571,25 @@ export async function getTeam(
   );
 }
 
+export async function getPlayersByIDs(ids: string[]) {
+  const players = mockDB.profiles.filter((p) => ids.includes(p.id))
+  return players
+}
+
 // GAMES
 export async function getGames(_: string): Promise<Game[]> {
   return simulateLatency(mockDB.games);
+}
+
+export async function getPlayerStatsByIDs(
+  statsIDs: string[]
+): Promise<PlayerStats[]> {
+
+  return simulateLatency(
+    mockDB.playerStats.filter((stat) =>
+      statsIDs.includes(stat.id)
+    )
+  )
 }
 
 // STANDINGS

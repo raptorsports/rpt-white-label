@@ -195,9 +195,6 @@ export default async function LeagueHome({
                   href={`${base}/teams/${t.id}`}
                 >
                   <div className="text-sm font-medium">{t.name}</div>
-                  <div className="text-xs text-muted-foreground">
-                    {t.record.w}-{t.record.l}-{t.record.ot ?? 0} • {t.points} pts
-                  </div>
                 </Link>
               ))}
               <Separator />

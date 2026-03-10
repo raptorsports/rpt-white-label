@@ -1,7 +1,11 @@
 import { getLeagueByDomain, getTeams } from "@/lib/league-data";
 import { TeamsPage } from "./TeamsPage";
 
-export default async function Page({ params }) {
+export default async function Page({
+  params,
+}: {
+  params: { domain: string };
+}) {
   const { domain } = params;
 
   const league = await getLeagueByDomain(domain);
