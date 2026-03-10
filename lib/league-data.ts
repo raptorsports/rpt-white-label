@@ -15,48 +15,63 @@ export type League = {
   };
 };
 
-export type Team = {
-  id: string;
-  leagueId: string;
-  division: string;
-  name: string;
-  logo: string;
-
-  record: { w: number; l: number; ot?: number };
-  points: number;
-  gf: number;
-  ga: number;
-
-  roster?: {
-    id: string;
-    name: string;
-    number?: string;
-    position?: string;
-  }[];
-};
-
 export type Score = {
-  home: number;
-  away: number;
-};
+  home?: number
+  away?: number
+}
+
+export type Team = {
+  id?: string
+  name?: string
+  logo?: string
+  leagueID?: string
+  division?: string
+  sportType?: string
+  sportLeagueID?: string
+  teamStats?: string
+  players?: string[]
+}
+
+export type Profile = {
+  id: string
+  userID?: string
+  name: string
+  email?: string
+  imageURL: string
+
+  // Player
+  playerNumber?: string
+  position?: string
+  statsID?: string
+  teamName?: string
+  isSuspended?: boolean
+
+  // Coach & Player
+  leagueID?: string
+  sportType?: string
+  division?: string
+  teamID?: string
+
+}
 
 export type Game = {
+  arenaID?: string
+  arenaName?: string
+  awayTeam: Team
+  awayTeamPlayers?: Profile[]
+  division?: string
+  gameType?: string
+  homeTeam: Team
+  homeTeamPlayers?: Profile[]
   id: string
-  division: string
-  leagueId: string
-  dateISO: string
-  location?: string
-
-  homeTeamName: string
-  awayTeamName: string
-
-  homeTeamLogo: string
-  awayTeamLogo: string
-
-  score?: {
-    home: number
-    away: number
-  }
+  leagueID?: string
+  matchStart: string
+  isFinished?: boolean
+  score?: Score
+  sportID?: string
+  sportType?: string
+  seasonID?: string
+  teamsID?: string[]
 }
 
 export type NewsPost = {
@@ -80,6 +95,9 @@ export type Sponsor = {
 // MOCK DATABASE
 // =======================================
 
+const teamLogo =
+  "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870";
+
 const mockDB = {
   leagues: [
     {
@@ -96,132 +114,215 @@ const mockDB = {
     },
   ] as League[],
 
- teams: [
-  {
-    id: "ducks",
-    leagueId: "league-dev",
-    division: "rookie",
-    name: "Ducks",
-    logo: "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870",
+  teams: [
+    {
+      id: "ducks",
+      name: "Ducks",
+      logo: teamLogo,
+      leagueID: "league-dev",
+      division: "rookie",
+      sportType: "hockey",
+      sportLeagueID: "hl-1",
+      teamStats: "8-3-1",
+      players: ["p1", "p2", "p3"],
+    },
+    {
+      id: "gladiators",
+      name: "Gladiators",
+      logo: teamLogo,
+      leagueID: "league-dev",
+      division: "elite",
+      sportType: "hockey",
+      sportLeagueID: "hl-1",
+      teamStats: "7-4-1",
+      players: ["p4", "p5"],
+    },
+    {
+      id: "penguins",
+      name: "Penguins",
+      logo: teamLogo,
+      leagueID: "league-dev",
+      division: "rookie",
+      sportType: "hockey",
+      sportLeagueID: "hl-1",
+      teamStats: "6-5-0",
+      players: ["p6", "p7"],
+    },
+  ] as Team[],
 
-    record: { w: 8, l: 3, ot: 1 },
-    points: 17,
-    gf: 44,
-    ga: 29,
-  },
-  {
-    id: "gladiators",
-    leagueId: "league-dev",
-    division: "elite",
-    name: "Gladiators",
-    logo: "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870",
-
-    record: { w: 7, l: 4, ot: 1 },
-    points: 15,
-    gf: 39,
-    ga: 33,
-  },
-],
+  profiles: [
+    {
+      id: "p1",
+      userID: "u1",
+      name: "John Carter",
+      email: "john@example.com",
+      imageURL: "/players/player1.jpg",
+      playerNumber: "9",
+      position: "C",
+      statsID: "stats1",
+      teamName: "Ducks",
+      isSuspended: false,
+      leagueID: "league-dev",
+      sportType: "hockey",
+      division: "rookie",
+      teamID: "ducks",
+    },
+    {
+      id: "p2",
+      userID: "u2",
+      name: "Mike Adams",
+      email: "mike@example.com",
+      imageURL: "/players/player2.jpg",
+      playerNumber: "21",
+      position: "LW",
+      statsID: "stats2",
+      teamName: "Ducks",
+      isSuspended: false,
+      leagueID: "league-dev",
+      sportType: "hockey",
+      division: "rookie",
+      teamID: "ducks",
+    },
+    {
+      id: "p3",
+      userID: "u3",
+      name: "Chris Walker",
+      email: "chris@example.com",
+      imageURL: "/players/player3.jpg",
+      playerNumber: "31",
+      position: "G",
+      statsID: "stats3",
+      teamName: "Ducks",
+      isSuspended: false,
+      leagueID: "league-dev",
+      sportType: "hockey",
+      division: "rookie",
+      teamID: "ducks",
+    },
+    {
+      id: "p4",
+      userID: "u4",
+      name: "Ryan Brooks",
+      email: "ryan@example.com",
+      imageURL: "/players/player4.jpg",
+      playerNumber: "14",
+      position: "RW",
+      statsID: "stats4",
+      teamName: "Gladiators",
+      isSuspended: false,
+      leagueID: "league-dev",
+      sportType: "hockey",
+      division: "elite",
+      teamID: "gladiators",
+    },
+  ] as Profile[],
 
   games: [
-  {
-    id: "g1",
-    division: "rookie",
-    leagueId: "league-dev",
-    dateISO: "2026-03-13T02:30:00Z",
-    location: "SLC Ice Center - Rink 2",
-    homeTeamName: "ducks",
-    awayTeamName: "penguins",
+    {
+      id: "g1",
+      arenaID: "arena1",
+      arenaName: "SLC Ice Center - Rink 2",
+      division: "rookie",
+      gameType: "season",
+      leagueID: "league-dev",
+      matchStart: "2026-03-13T02:30:00Z",
+      sportID: "sport-hockey",
+      sportType: "hockey",
+      seasonID: "winter-2026",
+      teamsID: ["ducks", "penguins"],
 
-    homeTeamLogo:
-      "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870",
-    awayTeamLogo:
-      "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870",
-  },
+      homeTeam: {
+        id: "ducks",
+        name: "Ducks",
+        logo: teamLogo,
+        leagueID: "league-dev",
+        division: "rookie",
+      },
 
-  {
-    id: "g2",
-    division: "elite",
-    leagueId: "league-dev",
-    dateISO: "2026-02-10T02:30:00Z",
-    location: "SLC Ice Center - Rink 1",
-    homeTeamName: "gladiators",
-    awayTeamName: "ducks",
+      awayTeam: {
+        id: "penguins",
+        name: "Penguins",
+        logo: teamLogo,
+        leagueID: "league-dev",
+        division: "rookie",
+      },
 
-    homeTeamLogo:
-      "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870",
-    awayTeamLogo:
-      "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870",
+      homeTeamPlayers: [],
+      awayTeamPlayers: [],
+    },
 
-    score: { home: 2, away: 4 },
-  },
+    {
+      id: "g2",
+      arenaID: "arena2",
+      arenaName: "SLC Ice Center - Rink 1",
+      division: "elite",
+      gameType: "season",
+      leagueID: "league-dev",
+      matchStart: "2026-02-10T02:30:00Z",
+      sportID: "sport-hockey",
+      sportType: "hockey",
+      seasonID: "winter-2026",
+      teamsID: ["gladiators", "ducks"],
 
-  {
-    id: "g3",
-    division: "pro",
-    leagueId: "league-dev",
-    dateISO: "2026-03-09T05:30:00Z",
-    location: "SLC Ice Center - Rink 1",
-    homeTeamName: "mammoth",
-    awayTeamName: "ducks",
+      homeTeam: {
+        id: "gladiators",
+        name: "Gladiators",
+        logo: teamLogo,
+        leagueID: "league-dev",
+        division: "elite",
+      },
 
-    homeTeamLogo:
-      "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870",
-    awayTeamLogo:
-      "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870",
+      awayTeam: {
+        id: "ducks",
+        name: "Ducks",
+        logo: teamLogo,
+        leagueID: "league-dev",
+        division: "elite",
+      },
 
-    score: { home: 2, away: 4 },
-  },
+      score: { home: 2, away: 4 },
+      isFinished: true,
 
-  {
-    id: "g4",
-    division: "a",
-    leagueId: "league-dev",
-    dateISO: "2026-02-28T02:30:00Z",
-    location: "SLC Ice Center - Rink 2",
-    homeTeamName: "ducks",
-    awayTeamName: "sharks",
+      homeTeamPlayers: [],
+      awayTeamPlayers: [],
+    },
 
-    homeTeamLogo:
-      "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870",
-    awayTeamLogo:
-      "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870",
+    {
+      id: "g3",
+      arenaID: "arena1",
+      arenaName: "SLC Ice Center - Rink 1",
+      division: "pro",
+      gameType: "season",
+      leagueID: "league-dev",
+      matchStart: "2026-03-09T05:30:00Z",
+      sportID: "sport-hockey",
+      sportType: "hockey",
+      seasonID: "winter-2026",
+      teamsID: ["penguins", "ducks"],
 
-    score: { home: 3, away: 1 },
-  },
+      homeTeam: {
+        id: "penguins",
+        name: "Penguins",
+        logo: teamLogo,
+        leagueID: "league-dev",
+        division: "pro",
+      },
 
-  {
-    id: "g5",
-    division: "b",
-    leagueId: "league-dev",
-    dateISO: "2026-03-09T02:30:00Z",
-    location: "SLC Ice Center - Rink 2",
-    homeTeamName: "ducks",
-    awayTeamName: "panthers",
+      awayTeam: {
+        id: "ducks",
+        name: "Ducks",
+        logo: teamLogo,
+        leagueID: "league-dev",
+        division: "pro",
+      },
 
-    homeTeamLogo:
-      "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870",
-    awayTeamLogo:
-      "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870",
+      score: { home: 2, away: 4 },
+      isFinished: true,
 
-    score: { home: 5, away: 3 },
-  },
-
-  {
-    id: "g6",
-    division: "b",
-    leagueId: "league-dev",
-    dateISO: "2026-03-15T02:30:00Z",
-    location: "SLC Ice Center - Rink 2",
-    homeTeamName: "ducks",
-    awayTeamName: "dragons",
-
-    homeTeamLogo:
-      "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870",
-    awayTeamLogo:
-      "https://firebasestorage.googleapis.com/v0/b/raptor-f203a.appspot.com/o/teamLogo%2FEE253CF1-5FF9-4CD8-954D-136D38A69D0E_teamLogo.png?alt=media&token=cb5f926a-7f22-4df3-9201-ed64e058b870",
-  },
-] as Game[],
+      homeTeamPlayers: [],
+      awayTeamPlayers: [],
+    },
+  ] as Game[],
 
   news: [
     {
@@ -301,7 +402,7 @@ export async function getGames(_: string): Promise<Game[]> {
 // STANDINGS
 export async function getStandings(_: string): Promise<Team[]> {
   return simulateLatency(
-    [...mockDB.teams].sort((a, b) => b.points - a.points)
+    [...mockDB.teams].sort((a, b) => b.teamStats - a.teamStats)
   );
 }
 

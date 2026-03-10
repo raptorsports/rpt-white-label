@@ -3,30 +3,7 @@
 import { useMemo, useState } from "react";
 import { Search, X } from "lucide-react";
 import { GamesCarousel } from "@/components/Game/GamesCarousel";
-
-type Score = {
-  home: number;
-  away: number;
-};
-
-export type Game = {
-  id: string
-  division: string
-  leagueId: string
-  dateISO: string
-  location?: string
-
-  homeTeamName: string
-  awayTeamName: string
-
-  homeTeamLogo: string
-  awayTeamLogo: string
-
-  score?: {
-    home: number
-    away: number
-  }
-}
+import { Game } from "@/lib/league-data";
 
 export function GamesByDivision({
   games,
@@ -70,7 +47,7 @@ export function GamesByDivision({
   }, [games, selectedDivision]);
 
   /* ===============================
-     SEARCH FILTER
+     SEARCH
   =============================== */
 
   const searchedGames = useMemo(() => {
@@ -79,11 +56,11 @@ export function GamesByDivision({
     const query = searchQuery.toLowerCase();
 
     return divisionFilteredGames.filter((game) => {
-      const home = game.homeName.toLowerCase();
-      const away = game.awayName.toLowerCase();
-      const location = game.location?.toLowerCase() ?? "";
+      const home = game.homeTeam?.name?.toLowerCase() ?? "";
+      const away = game.awayTeam?.name?.toLowerCase() ?? "";
+      const location = game.arenaName?.toLowerCase() ?? "";
 
-      const dateString = new Date(game.dateISO)
+      const dateString = new Date(game.matchStart)
         .toLocaleDateString("en-US", {
           weekday: "short",
           month: "short",
@@ -101,50 +78,50 @@ export function GamesByDivision({
   }, [divisionFilteredGames, searchQuery]);
 
   /* ===============================
-     UPCOMING GAMES
+     UPCOMING
   =============================== */
 
   const upcomingGames = useMemo(() => {
     return searchedGames
       .filter((g) => {
-        const gameTime = new Date(g.dateISO).getTime();
+        const gameTime = new Date(g.matchStart).getTime();
         return gameTime + ONE_HOUR >= now;
       })
       .sort(
         (a, b) =>
-          new Date(a.dateISO).getTime() -
-          new Date(b.dateISO).getTime()
+          new Date(a.matchStart).getTime() -
+          new Date(b.matchStart).getTime()
       );
   }, [searchedGames, now]);
 
   /* ===============================
-     PAST GAMES
+     PAST
   =============================== */
 
   const pastGames = useMemo(() => {
     return searchedGames
       .filter((g) => {
-        const gameTime = new Date(g.dateISO).getTime();
+        const gameTime = new Date(g.matchStart).getTime();
         return gameTime + ONE_HOUR < now;
       })
       .sort(
         (a, b) =>
-          new Date(b.dateISO).getTime() -
-          new Date(a.dateISO).getTime()
+          new Date(b.matchStart).getTime() -
+          new Date(a.matchStart).getTime()
       );
   }, [searchedGames, now]);
 
   return (
     <div className="space-y-12">
 
-      {/* DIVISION + SEARCH */}
+      {/* HEADER */}
       <div className="space-y-4">
 
         <h2 className="text-xl font-semibold">
           {seasonLabel} Games
         </h2>
 
-        {/* MODERN SEARCH BAR */}
+        {/* SEARCH */}
         <div className="relative w-full max-w-md">
 
           <Search
@@ -171,7 +148,6 @@ export function GamesByDivision({
               <X size={16} />
             </button>
           )}
-
         </div>
 
         {/* DIVISION FILTER */}
@@ -193,7 +169,7 @@ export function GamesByDivision({
 
       </div>
 
-      {/* UPCOMING GAMES */}
+      {/* UPCOMING */}
       <div className="space-y-6">
 
         <GamesCarousel
@@ -206,14 +182,13 @@ export function GamesByDivision({
             No upcoming games.
           </p>
         )}
-
       </div>
 
       {/* SCORES */}
       <div className="space-y-6">
 
         <GamesCarousel
-          sectionTitle="Score"
+          sectionTitle="Scores"
           games={pastGames}
         />
 
@@ -222,9 +197,7 @@ export function GamesByDivision({
             No completed games.
           </p>
         )}
-
       </div>
-
     </div>
   );
 }
