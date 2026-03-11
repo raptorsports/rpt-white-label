@@ -13,6 +13,7 @@ export type League = {
     primary: string;
     accent: string;
   };
+  activeSeasonID?: string;
 };
 
 export type Score = {
@@ -30,6 +31,25 @@ export type Team = {
   sportLeagueID?: string
   teamStats?: string
   players?: string[]
+}
+
+export type TeamStats = {
+  id: string        // Stats ID
+  teamID: string  // Team ID
+  leagueID?: string// League ID
+  seasonID?: string // Season ID
+  gp?: number      // Games Played
+  pts?: number     // Points
+  w?: number       // Wins
+  l?: number       // Losses
+  otl?: number     // Overtime Losses
+  t?: number       // Ties
+  diff?: number    // Goal Differential
+  gf?: number      // Goals For
+  ga?: number      // Goals Against
+  pim?: number     // Penalty Minutes
+  l10?: string     // Last 10 games (ex: "7-2-1")
+  streak?: string  // Current streak (ex: "W3")
 }
 
 export type Profile = {
@@ -202,6 +222,7 @@ const mockDB = {
         primary: "bg-black",
         accent: "text-black",
       },
+      activeSeasonID: "winter2026"
     },
   ] as League[],
 
@@ -240,6 +261,67 @@ const mockDB = {
       players: ["p6", "p7"],
     },
   ] as Team[],
+
+  TeamStats: [
+
+    {
+      id: "01",
+      teamID: "ducks",
+      leagueID: "league-dev",
+      seasonID: "winter2026",
+      gp: 12,
+      pts: 22,
+      w: 10,
+      l: 2,
+      otl: 0,
+      t: 0,
+      diff: 18,
+      gf: 48,
+      ga: 30,
+      pim: 14,
+      l10: "8-2-0",
+      streak: "W4"
+    },
+
+    {
+      id: "02",
+      teamID: "gladiators",
+      leagueID: "league-dev",
+      seasonID: "winter2026",
+      gp: 12,
+      pts: 18,
+      w: 8,
+      l: 3,
+      otl: 1,
+      t: 0,
+      diff: 10,
+      gf: 40,
+      ga: 30,
+      pim: 18,
+      l10: "6-3-1",
+      streak: "W1"
+    },
+
+    {
+      id: "03",
+      teamID: "penguins",
+      leagueID: "league-dev",
+      seasonID: "winter2026",
+      gp: 12,
+      pts: 14,
+      w: 6,
+      l: 5,
+      otl: 1,
+      t: 0,
+      diff: -4,
+      gf: 32,
+      ga: 36,
+      pim: 20,
+      l10: "4-5-1",
+      streak: "L2"
+    }
+
+  ],
 
   profiles: [
     {
@@ -309,90 +391,90 @@ const mockDB = {
   ] as Profile[],
 
   playerStats: [
-  {
-    id: "stats1",
-    playerID: "p1",
-    teamID: "ducks",
-    leagueID: "league-dev",
-    division: "rookie",
-    seasonID: "season-2026",
-    name: "John Carter",
-    playerNumber: "9",
+    {
+      id: "stats1",
+      playerID: "p1",
+      teamID: "ducks",
+      leagueID: "league-dev",
+      division: "rookie",
+      seasonID: "season-2026",
+      name: "John Carter",
+      playerNumber: "9",
 
-    hockey: {
-      pos: "C",
-      gp: "12",
-      g: "7",
-      a: "10",
-      pts: "17",
-      ppga: "1.41",
-      pim: "4",
+      hockey: {
+        pos: "C",
+        gp: "12",
+        g: "7",
+        a: "10",
+        pts: "17",
+        ppga: "1.41",
+        pim: "4",
+      },
     },
-  },
 
-  {
-    id: "stats2",
-    playerID: "p2",
-    teamID: "ducks",
-    leagueID: "league-dev",
-    division: "rookie",
-    seasonID: "season-2026",
-    name: "Mike Adams",
-    playerNumber: "21",
+    {
+      id: "stats2",
+      playerID: "p2",
+      teamID: "ducks",
+      leagueID: "league-dev",
+      division: "rookie",
+      seasonID: "season-2026",
+      name: "Mike Adams",
+      playerNumber: "21",
 
-    hockey: {
-      pos: "LW",
-      gp: "12",
-      g: "5",
-      a: "8",
-      pts: "13",
-      ppga: "1.08",
-      pim: "6",
+      hockey: {
+        pos: "LW",
+        gp: "12",
+        g: "5",
+        a: "8",
+        pts: "13",
+        ppga: "1.08",
+        pim: "6",
+      },
     },
-  },
 
-  {
-    id: "stats3",
-    playerID: "p3",
-    teamID: "ducks",
-    leagueID: "league-dev",
-    division: "rookie",
-    seasonID: "season-2026",
-    name: "Chris Walker",
-    playerNumber: "31",
+    {
+      id: "stats3",
+      playerID: "p3",
+      teamID: "ducks",
+      leagueID: "league-dev",
+      division: "rookie",
+      seasonID: "season-2026",
+      name: "Chris Walker",
+      playerNumber: "31",
 
-    hockey: {
-      pos: "G",
-      gp: "10",
-      g: "0",
-      a: "1",
-      pts: "1",
-      ppga: "0.10",
-      pim: "0",
+      hockey: {
+        pos: "G",
+        gp: "10",
+        g: "0",
+        a: "1",
+        pts: "1",
+        ppga: "0.10",
+        pim: "0",
+      },
     },
-  },
 
-  {
-    id: "stats4",
-    playerID: "p4",
-    teamID: "gladiators",
-    leagueID: "league-dev",
-    division: "elite",
-    seasonID: "season-2026",
-    name: "Ryan Brooks",
-    playerNumber: "14",
+    {
+      id: "stats4",
+      playerID: "p4",
+      teamID: "gladiators",
+      leagueID: "league-dev",
+      division: "elite",
+      seasonID: "season-2026",
+      name: "Ryan Brooks",
+      playerNumber: "14",
 
-    hockey: {
-      pos: "RW",
-      gp: "11",
-      g: "9",
-      a: "6",
-      pts: "15",
-      ppga: "1.36",
-      pim: "2",
+      hockey: {
+        pos: "RW",
+        gp: "11",
+        g: "9",
+        a: "6",
+        pts: "15",
+        ppga: "1.36",
+        pim: "2",
+      },
     },
-  },
-] as PlayerStats[],
+  ] as PlayerStats[],
 
   games: [
     {
@@ -581,6 +663,16 @@ export async function getGames(_: string): Promise<Game[]> {
   return simulateLatency(mockDB.games);
 }
 
+export async function getGamesByTeamID(teamID: string): Promise<Game[]> {
+
+  const games = mockDB.games.filter(game =>
+    game.teamsID?.includes(teamID)
+  )
+
+  return simulateLatency(games)
+
+}
+
 export async function getPlayerStatsByIDs(
   statsIDs: string[]
 ): Promise<PlayerStats[]> {
@@ -595,8 +687,17 @@ export async function getPlayerStatsByIDs(
 // STANDINGS
 export async function getStandings(_: string): Promise<Team[]> {
   return simulateLatency(
-    [...mockDB.teams].sort((a, b) => b.teamStats - a.teamStats)
+    [...mockDB.teams]
   );
+}
+
+export async function getTeamStandings(leagueID: string, activeSeasonID: string): Promise<TeamStats[]> {
+
+  const teamStats = mockDB.TeamStats.filter(teamStat =>
+    teamStat.leagueID == leagueID && teamStat.seasonID == activeSeasonID
+  )
+
+  return simulateLatency(teamStats);
 }
 
 // NEWS

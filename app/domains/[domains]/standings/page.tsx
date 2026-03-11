@@ -1,5 +1,5 @@
-import { getLeagueByDomain, getStandings } from "@/lib/league-data";
-import { StandingsTable } from "@/components/league/standings-table";
+import { getLeagueByDomain, getTeamStandings, getTeams } from "@/lib/league-data";
+import { StandingsView } from "@/components/league/standings-view";
 
 export default async function StandingsPage({
   params,
@@ -7,19 +7,21 @@ export default async function StandingsPage({
   params: Promise<{ domain: string }>;
 }) {
   const { domain } = await params;
+
   const league = await getLeagueByDomain(domain);
   if (!league) return <div>League not found.</div>;
 
-  const standings = await getStandings(league.id);
+  const teams = await getTeams(league.id);
+  const teamStats = await getTeamStandings(
+    league.id,
+    league.activeSeasonID || ""
+  );
 
   return (
-    <div className="space-y-4">
-      <div>
-        <h1 className="text-2xl font-semibold">Standings</h1>
-        <p className="text-sm text-muted-foreground">{league.seasonLabel}</p>
-      </div>
-
-      <StandingsTable teams={standings} />
-    </div>
+    <StandingsView
+      league={league}
+      teams={teams}
+      stats={teamStats}
+    />
   );
 }

@@ -57,7 +57,7 @@ export function TeamPlayerStats({
 
       {/* PLAYER LIST */}
 
-      <div className="space-y-4">
+      <div className="space-y-6">
 
         {players.map(player => {
 
@@ -68,7 +68,7 @@ export function TeamPlayerStats({
             <div
               key={player.id}
               onClick={()=>setOpen(true)}
-              className="relative group flex items-center justify-between rounded-xl border bg-white px-6 py-6 hover:shadow-lg hover:-translate-y-[1px] cursor-pointer transition"
+              className="relative group flex items-center justify-between rounded-xl shadow-[0_0_10px_rgba(0,0,0,0.15)] bg-white px-6 py-6 hover:-translate-y-[1px] cursor-pointer transition"
             >
 
               <div className="flex items-center pl-24">

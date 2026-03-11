@@ -6,7 +6,8 @@ import {
   getLeagueByDomain,
   getTeam,
   getPlayersByIDs,
-  getPlayerStatsByIDs
+  getPlayerStatsByIDs,
+  getGamesByTeamID
 } from "@/lib/league-data"
 import { Separator } from "@/components/ui/separator"
 import { TeamTabs } from "@/components/team/team-tabs"
@@ -27,6 +28,10 @@ export default async function TeamDetailPage({
 
   const base = `/domains/${encodeURIComponent(domain)}/teams`
 
+  /* ===============================
+     FETCH PLAYERS
+  =============================== */
+
   const players =
     team.players?.length
       ? await getPlayersByIDs(team.players)
@@ -45,6 +50,12 @@ export default async function TeamDetailPage({
     a.name.localeCompare(b.name)
   )
 
+  /* ===============================
+     FETCH TEAM GAMES
+  =============================== */
+
+  const games = await getGamesByTeamID(teamId)
+
   return (
     <div className="space-y-8">
 
@@ -58,16 +69,16 @@ export default async function TeamDetailPage({
       </Link>
 
       {/* TEAM HEADER */}
-      <div className="relative overflow-hidden rounded-xl border bg-gray-200 text-foreground p-6">
+      <div className="relative overflow-hidden rounded-xl bg-white shadow-[0_0_10px_rgba(0,0,0,0.15)] text-foreground p-6">
 
         <div className="flex items-center gap-6">
 
-          <div className="rounded-xl bg-white p-3 shadow-lg">
+          <div className="p-3">
             <Image
               src={team.logo ?? ""}
               alt={team.name ?? ""}
-              width={70}
-              height={70}
+              width={74}
+              height={74}
               className="object-contain"
             />
           </div>
@@ -92,29 +103,14 @@ export default async function TeamDetailPage({
 
       </div>
 
-      {/* ROSTER */}
-      <Card>
+      {/* CONTENT */}
+      <Card className="border-0 shadow-[0_0_10px_rgba(0,0,0,0.15)]">
         <CardContent className="p-6 space-y-4">
-
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold uppercase">Roster</h1>
-              <p className="text-sm text-gray-400">
-                Click on a player to see stats
-              </p>
-            </div>
-
-            <span className="text-xs text-muted-foreground">
-              {sortedPlayers.length} players
-            </span>
-          </div>
-
-          <Separator />
 
           <TeamTabs
             players={sortedPlayers}
             stats={stats}
-            games={team.games ?? []}
+            games={games}
           />
 
         </CardContent>
