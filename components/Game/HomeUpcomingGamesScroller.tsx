@@ -49,7 +49,7 @@ export function HomeUpcomingGamesScroller({ games }: { games: Game[] }) {
 
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scroll-smooth pb-2 px-8"
+        className="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar pb-2 px-8"
       >
         {games.map((game) => (
           <div

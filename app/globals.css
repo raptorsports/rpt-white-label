@@ -206,3 +206,19 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Sponsors marquee animation */
+
+@keyframes sponsors-marquee {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(50%);
+  }
+}
+
+.animate-sponsors-marquee {
+  animation: sponsors-marquee 30s linear infinite;
+}

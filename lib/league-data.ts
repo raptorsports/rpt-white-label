@@ -582,6 +582,76 @@ const mockDB = {
       homeTeamPlayers: [],
       awayTeamPlayers: [],
     },
+
+    {
+      id: "g4",
+      arenaID: "arena2",
+      arenaName: "SLC Ice Center - Rink 1",
+      division: "elite",
+      gameType: "season",
+      leagueID: "league-dev",
+      matchStart: "2026-03-29T02:30:00Z",
+      sportID: "sport-hockey",
+      sportType: "hockey",
+      seasonID: "winter-2026",
+      teamsID: ["sharks", "ducks"],
+
+      homeTeam: {
+        id: "sharks",
+        name: "Sharks",
+        logo: teamLogo,
+        leagueID: "league-dev",
+        division: "elite",
+      },
+
+      awayTeam: {
+        id: "ducks",
+        name: "Ducks",
+        logo: teamLogo,
+        leagueID: "league-dev",
+        division: "elite",
+      },
+
+      isFinished: false,
+
+      homeTeamPlayers: [],
+      awayTeamPlayers: [],
+    },
+
+    {
+      id: "g5",
+      arenaID: "arena2",
+      arenaName: "SLC Ice Center - Rink 1",
+      division: "elite",
+      gameType: "season",
+      leagueID: "league-dev",
+      matchStart: "2026-03-29T02:30:00Z",
+      sportID: "sport-hockey",
+      sportType: "hockey",
+      seasonID: "winter-2026",
+      teamsID: ["krakens", "ducks"],
+
+      homeTeam: {
+        id: "krakens",
+        name: "Krakens",
+        logo: teamLogo,
+        leagueID: "league-dev",
+        division: "elite",
+      },
+
+      awayTeam: {
+        id: "ducks",
+        name: "Ducks",
+        logo: teamLogo,
+        leagueID: "league-dev",
+        division: "elite",
+      },
+
+      isFinished: false,
+
+      homeTeamPlayers: [],
+      awayTeamPlayers: [],
+    },
   ] as Game[],
 
   news: [
