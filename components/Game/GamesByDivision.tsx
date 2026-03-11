@@ -155,7 +155,7 @@ export function GamesByDivision({
           {divisions.map((division) => (
             <button
               key={division}
-              onClick={() => setSelectedDivision(division)}
+              onClick={() => setSelectedDivision(division || "")}
               className={`px-4 py-2 rounded-full border text-sm font-semibold uppercase transition ${
                 selectedDivision === division
                   ? "bg-blue-950 text-white"
