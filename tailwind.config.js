@@ -29,6 +29,15 @@ module.exports = {
         rptSecondaryBlue: "#0D2051",
 
       },
+      keyframes: {
+        "sponsors-marquee": {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+      },
+      animation: {
+        "sponsors-marquee": "sponsors-marquee 28s linear infinite",
+      },
     },
   },
   plugins: [],

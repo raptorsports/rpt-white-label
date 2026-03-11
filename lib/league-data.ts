@@ -102,6 +102,7 @@ export type NewsPost = {
   excerpt: string;
   content: string;
   publishedISO: string;
+  imageURL?: string;
 };
 
 export type Sponsor = {
@@ -584,17 +585,43 @@ const mockDB = {
   ] as Game[],
 
   news: [
-    {
-      id: "n1",
-      leagueId: "league-dev",
-      slug: "season-kickoff",
-      title: "Season Kickoff Announced",
-      excerpt: "Opening night starts February 15th.",
-      content:
-        "Opening night begins February 15th.\n\nCheck your roster and schedule.",
-      publishedISO: "2026-02-01T18:00:00Z",
-    },
-  ] as NewsPost[],
+  {
+    id: "n1",
+    leagueId: "league-dev",
+    slug: "season-kickoff",
+    title: "Season Kickoff Announced",
+    excerpt: "Opening night starts February 15th.",
+    content:
+      "Opening night begins February 15th.\n\nCheck your roster and schedule.",
+    publishedISO: "2026-02-01T18:00:00Z",
+    imageURL:
+      "https://images.unsplash.com/photo-1515703407324-5f753afd8be8?q=80&w=1600&auto=format&fit=crop",
+  },
+  {
+    id: "n2",
+    leagueId: "league-dev",
+    slug: "playoff-race-heats-up",
+    title: "Playoff Race Heats Up",
+    excerpt: "Several teams are battling for the final playoff spots.",
+    content:
+      "With only a few weeks left in the regular season, teams are fighting hard for playoff positioning. Expect intense matchups across all divisions.",
+    publishedISO: "2026-02-15T18:00:00Z",
+    imageURL:
+      "https://images.unsplash.com/photo-1606053187313-7b70f9c89c41?q=80&w=1600&auto=format&fit=crop",
+  },
+  {
+    id: "n3",
+    leagueId: "league-dev",
+    slug: "rookie-division-surprises",
+    title: "Rookie Division Full of Surprises",
+    excerpt: "New teams are shaking up the standings this season.",
+    content:
+      "The rookie division has delivered some unexpected results this year, with new teams rising quickly and challenging established squads.",
+    publishedISO: "2026-02-22T18:00:00Z",
+    imageURL:
+      "https://images.unsplash.com/photo-1486286701208-1d58e9338013?q=80&w=1600&auto=format&fit=crop",
+  },
+] as NewsPost[],
 
   sponsors: [
     { id: "s1", leagueId: "league-dev", name: "Acme Sports" },
